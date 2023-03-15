@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    ui->setupUi(this); //comment dsadsa
+    ui->setupUi(this);
     ui->listWidget_ans_search_num->setVisible(false); //скрыть listWidget
     ui->radioButton_increasing->click(); //иммитация клика мышки на кнопку возрастания
 
@@ -24,7 +24,6 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_AddRow_clicked()//кнопка добавить строку
 {
     ui->spinBox_Row->setValue(ui->spinBox_Row->value()+1);
-    return;
 }
 
 void MainWindow::on_pushButton_AddColum_clicked()//кнопка добивать стобец
@@ -1628,10 +1627,15 @@ void MainWindow::on_pushButton_saveBin_clicked() //save as bin
 void MainWindow::saveTxt() //func save as txt
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Сохранить как "), "C:/Users/sulle/OneDrive/Документы", tr("Text files (*.txt)"));
+    QFileInfo fi(fileName);
 
     if (fileName.isEmpty())
     {
         QMessageBox::information(this, "Ошибка", "Файл не выбран");
+    }
+    else if (fi.suffix() != "txt")
+    {
+        QMessageBox::information(this, "Ошибка", "Введен некоректный формат файла");
     }
     else
     {
@@ -1670,10 +1674,15 @@ void MainWindow::saveTxt() //func save as txt
 void MainWindow::openTxt() //func open as txt
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Открыть txt"), "C:/Users/sulle/OneDrive/Документы", tr("Text files (*.txt)"));
+    QFileInfo fi(fileName);
 
     if (fileName.isEmpty())
     {
         QMessageBox::information(this, "Ошибка", "Файл не выбран");
+    }
+    else if(fi.suffix() != "txt")
+    {
+        QMessageBox::information(this, "Ошибка", "Введен некоректный формат файла");
     }
     else
     {
@@ -1745,10 +1754,15 @@ void MainWindow::openTxt() //func open as txt
 void MainWindow::saveBin() //func save as bin
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Сохранить как bin"), "C:/Users/sulle/OneDrive/Документы", tr("Binary files (*.bin)"));
-
+    QFileInfo fi(fileName);
+    \
     if (fileName.isEmpty())
     {
         QMessageBox::information(this, "Ошибка", "Файл не выбран");
+    }
+    else if(fi.suffix() != "bin")
+    {
+        QMessageBox::information(this, "Ошибка", "Введено неккоректное разрешение файла");
     }
     else
     {
@@ -1794,10 +1808,15 @@ void MainWindow::saveBin() //func save as bin
 void MainWindow::openBin() //fucn open as bin
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Открыть как bin"), "C:/Users/sulle/OneDrive/Документы", tr("Binary files (*.bin)"));
+    QFileInfo fi(fileName);
 
     if (fileName.isEmpty())
     {//check empty fileName
         QMessageBox::information(this, "Ошибка", "Файл не выбран");
+    }
+    else if(fi.suffix() != "bin")
+    {
+        QMessageBox::information(this, "Ошибка", "Введен некоректный формат файла");
     }
     else
     {
