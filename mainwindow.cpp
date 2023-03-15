@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    ui->setupUi(this); //comment dsadsa
     ui->listWidget_ans_search_num->setVisible(false); //скрыть listWidget
     ui->radioButton_increasing->click(); //иммитация клика мышки на кнопку возрастания
 
@@ -24,6 +24,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_AddRow_clicked()//кнопка добавить строку
 {
     ui->spinBox_Row->setValue(ui->spinBox_Row->value()+1);
+    return;
 }
 
 void MainWindow::on_pushButton_AddColum_clicked()//кнопка добивать стобец
