@@ -13,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setWindowTitle("Table Project"); //изменили название программы
 
+    ui->pushButton_saveBin->setVisible(false);
+    ui->pushButton_openBin->setVisible(false);
+
 }
 
 MainWindow::~MainWindow()
@@ -1438,42 +1441,42 @@ void MainWindow::on_pushButton_openTxt_clicked() //open txt
     no_auto_change = true;
 }
 
-void MainWindow::on_pushButton_openBin_clicked() //open bin
-{
-    no_auto_change = false;
+//void MainWindow::on_pushButton_openBin_clicked() //open bin
+//{
+//    no_auto_change = false;
 
-    ui->label_time->clear();
+//    ui->label_time->clear();
 
-    if (ui->tableWidget->columnCount() != 1)
-    {//если не 1 стобец
-        //Выводим ошибку
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Ошибка");
-        msgBox.setText("Чтобы считать массив из файла bin необходим 1 столбец. \nИзменить количество столбцов?");
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        int res = msgBox.exec();
+//    if (ui->tableWidget->columnCount() != 1)
+//    {//если не 1 стобец
+//        //Выводим ошибку
+//        QMessageBox msgBox;
+//        msgBox.setWindowTitle("Ошибка");
+//        msgBox.setText("Чтобы считать массив из файла bin необходим 1 столбец. \nИзменить количество столбцов?");
+//        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+//        int res = msgBox.exec();
 
-        //Обработка ошибки
-        switch (res)
-            {//какую кнопку нажал юзер
-            case QMessageBox::Yes:
-            {//нажали кнопку Yes
-                ui->tableWidget->setColumnCount(1); //изменили кол-во столбцов на 1
-                on_pushButton_openBin_clicked(); //запустили программу опять
-                break;
-            }
-            case QMessageBox::No:
-            {//нажали кнопку No
-                break; //ничего не делаем
-            }
-        }
-    }
-    else
-    {//если 1 стобец
-        openBin();
-    }
-    no_auto_change = true;
-}
+//        //Обработка ошибки
+//        switch (res)
+//            {//какую кнопку нажал юзер
+//            case QMessageBox::Yes:
+//            {//нажали кнопку Yes
+//                ui->tableWidget->setColumnCount(1); //изменили кол-во столбцов на 1
+//                on_pushButton_openBin_clicked(); //запустили программу опять
+//                break;
+//            }
+//            case QMessageBox::No:
+//            {//нажали кнопку No
+//                break; //ничего не делаем
+//            }
+//        }
+//    }
+//    else
+//    {//если 1 стобец
+//        openBin();
+//    }
+//    no_auto_change = true;
+//}
 
 
 //Save arr
@@ -1551,73 +1554,73 @@ void MainWindow::on_pushButton_saveTxt_clicked() //save as txt
     no_auto_change = true;
 }
 
-void MainWindow::on_pushButton_saveBin_clicked() //save as bin
-{
-    no_auto_change = false;
+//void MainWindow::on_pushButton_saveBin_clicked() //save as bin
+//{
+//    no_auto_change = false;
 
-    ui->label_time->clear();
+//    ui->label_time->clear();
 
-    if (ui->tableWidget->columnCount() != 1)
-    {//если не 1 стобец
-        //Выводим ошибку
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Ошибка");
-        msgBox.setText("Чтобы сохранить массив в файл txt необходим 1 столбец. \nИзменить количество столбцов?");
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        int res = msgBox.exec();
+//    if (ui->tableWidget->columnCount() != 1)
+//    {//если не 1 стобец
+//        //Выводим ошибку
+//        QMessageBox msgBox;
+//        msgBox.setWindowTitle("Ошибка");
+//        msgBox.setText("Чтобы сохранить массив в файл txt необходим 1 столбец. \nИзменить количество столбцов?");
+//        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+//        int res = msgBox.exec();
 
-        //Обработка ошибки
-        switch (res)
-            {//какую кнопку нажал юзер
-            case QMessageBox::Yes:
-            {//нажали кнопку Yes
-                ui->tableWidget->setColumnCount(1); //изменили кол-во столбцов на 1
-                on_pushButton_saveBin_clicked(); //return clicked saveTxt
-                break;
-            }
-            case QMessageBox::No:
-            {//нажали кнопку No
-                break; //ничего не делаем
-            }
-        }
-    }
-    else
-    {//если 1 стобец
-        flag = true;
+//        //Обработка ошибки
+//        switch (res)
+//            {//какую кнопку нажал юзер
+//            case QMessageBox::Yes:
+//            {//нажали кнопку Yes
+//                ui->tableWidget->setColumnCount(1); //изменили кол-во столбцов на 1
+//                on_pushButton_saveBin_clicked(); //return clicked saveTxt
+//                break;
+//            }
+//            case QMessageBox::No:
+//            {//нажали кнопку No
+//                break; //ничего не делаем
+//            }
+//        }
+//    }
+//    else
+//    {//если 1 стобец
+//        flag = true;
 
-        for (int i = 0; i < ui->spinBox_Row->value(); i++)
-        {
-            if (ui->tableWidget->item(i,0) != nullptr)
-                ui->tableWidget->item(i,0)->text().toInt(&flag);
-            if (ui->tableWidget->item(i,0) == nullptr or ui->tableWidget->item(i,0)->text().isEmpty() or !flag)
-            {//если не существует ячейки или пустая строка или значение некоректно
-                QMessageBox msgBox;
-                msgBox.setWindowTitle("Ошибка");
-                msgBox.setText("В массиве есть неверные значения.");
-                msgBox.setStandardButtons(QMessageBox::Ok);
-                int res = msgBox.exec();
+//        for (int i = 0; i < ui->spinBox_Row->value(); i++)
+//        {
+//            if (ui->tableWidget->item(i,0) != nullptr)
+//                ui->tableWidget->item(i,0)->text().toInt(&flag);
+//            if (ui->tableWidget->item(i,0) == nullptr or ui->tableWidget->item(i,0)->text().isEmpty() or !flag)
+//            {//если не существует ячейки или пустая строка или значение некоректно
+//                QMessageBox msgBox;
+//                msgBox.setWindowTitle("Ошибка");
+//                msgBox.setText("В массиве есть неверные значения.");
+//                msgBox.setStandardButtons(QMessageBox::Ok);
+//                int res = msgBox.exec();
 
-                //Обработка ошибки
-                switch (res)
-                {//какую кнопку нажал юзер
-                    case QMessageBox::Ok:
-                    {//нажали кнопку Yes
-                        flag = false;
-                        break;
-                    }
-                }
-                break;
-            }
-        }
+//                //Обработка ошибки
+//                switch (res)
+//                {//какую кнопку нажал юзер
+//                    case QMessageBox::Ok:
+//                    {//нажали кнопку Yes
+//                        flag = false;
+//                        break;
+//                    }
+//                }
+//                break;
+//            }
+//        }
 
-        if (flag)
-        {//если нет пустых значений
-            saveBin();
-        }
-    }
+//        if (flag)
+//        {//если нет пустых значений
+//            saveBin();
+//        }
+//    }
 
-    no_auto_change = true;
-}
+//    no_auto_change = true;
+//}
 
 
 //function for open/save txt/bin
@@ -1764,150 +1767,151 @@ void MainWindow::openTxt() //func open as txt
     }
 }
 
-void MainWindow::saveBin() //func save as bin
-{
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Сохранить как bin"), "C:/Users/sulle/OneDrive/Документы", tr("Binary files (*.bin)"));
-    QFileInfo fi(fileName);
+//void MainWindow::saveBin() //func save as bin
+//{
+//    QString fileName = QFileDialog::getSaveFileName(this, tr("Сохранить как bin"), "C:/Users/sulle/OneDrive/Документы", tr("Binary files (*.bin)"));
+//    QFileInfo fi(fileName);
 
-    if (fileName.isEmpty())
-    {
-        QMessageBox::information(this, "Ошибка", "Файл не выбран");
-    }
-    else if(fi.suffix() != "bin")
-    {
-        QMessageBox::information(this, "Ошибка", "Введено неккоректное разрешение файла");
-    }
-    else
-    {
-        //Open file
-        QFile file;
-        file.setFileName(fileName);
-        file.open(QIODevice::WriteOnly);
+//    if (fileName.isEmpty())
+//    {
+//        QMessageBox::information(this, "Ошибка", "Файл не выбран");
+//    }
+//    else if(fi.suffix() != "bin")
+//    {
+//        QMessageBox::information(this, "Ошибка", "Введено неккоректное разрешение файла");
+//    }
+//    else
+//    {
+//        //Open file
+//        QFile file;
+//        file.setFileName(fileName);
+//        file.open(QIODevice::WriteOnly);
 
-        //Create arg
-        char *mas;
-        int size_int = sizeof(int);
-        size_t size_t = sizeof(int);
-        mas = new char[size_int];
+//        //Create arg
+//        char *mas;
+//        int size_int = sizeof(int);
+//        size_t size_t = sizeof(int);
+//        mas = new char[size_int];
 
-        int size = ui->spinBox_Row->value(); //size arr
-        int checksum = size;
+//        int size = ui->spinBox_Row->value(); //size arr
+//        int checksum = size;
 
-        memcpy(mas, &size, size_t);
-        file.write(mas, size_int);
+//        m
+//                emcpy(mas, &size, size_t);
+//        file.write(mas, size_int);
 
-        for (int i = 0; i < size; i++)
-        {
-            if (ui->tableWidget->item(i,0)==nullptr)
-            {//cell not exist
-                QTableWidgetItem *ti;
-                ti = new QTableWidgetItem;
-                ui->tableWidget->setItem(i,0,ti);
-            }
+//        for (int i = 0; i < size; i++)
+//        {
+//            if (ui->tableWidget->item(i,0)==nullptr)
+//            {//cell not exist
+//                QTableWidgetItem *ti;
+//                ti = new QTableWidgetItem;
+//                ui->tableWidget->setItem(i,0,ti);
+//            }
 
-            int tmp = ui->tableWidget->item(i,0)->text().toInt(&error);
+//            int tmp = ui->tableWidget->item(i,0)->text().toInt(&error);
 
-            if (!(error and  (tmp >= -100 and tmp <= 100)))//check bad arg
-                tmp = 101;
+//            if (!(error and  (tmp >= -100 and tmp <= 100)))//check bad arg
+//                tmp = 101;
 
-            checksum += tmp;
+//            checksum += tmp;
 
-            memcpy(mas, &tmp, size_t);
-            file.write(mas, size_int);
-        }
+//            memcpy(mas, &tmp, size_t);
+//            file.write(mas, size_int);
+//        }
 
-        //write checksum
-        memcpy(mas, &checksum, size_t);
-        file.write(mas, size_int);
+//        //write checksum
+//        memcpy(mas, &checksum, size_t);
+//        file.write(mas, size_int);
 
-        file.close();
-        delete [] mas;
-        mas = nullptr;
-    }
-}
+//        file.close();
+//        delete [] mas;
+//        mas = nullptr;
+//    }
+//}
 
-void MainWindow::openBin() //fucn open as bin
-{
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Открыть как bin"), "C:/Users/sulle/OneDrive/Документы", tr("Binary files (*.bin)"));
-    QFileInfo fi(fileName);
+//void MainWindow::openBin() //fucn open as bin
+//{
+//    QString fileName = QFileDialog::getOpenFileName(this, tr("Открыть как bin"), "C:/Users/sulle/OneDrive/Документы", tr("Binary files (*.bin)"));
+//    QFileInfo fi(fileName);
 
-    if (fileName.isEmpty())
-        QMessageBox::information(this, "Ошибка", "Файл не выбран");
-    else if(fi.suffix() != "bin")
-        QMessageBox::information(this, "Ошибка", "Введен некоректный формат файла");
-    else
-    {
-        //Open file
-        QFile file;
-        file.setFileName(fileName);
-        file.open(QIODevice::ReadOnly);
+//    if (fileName.isEmpty())
+//        QMessageBox::information(this, "Ошибка", "Файл не выбран");
+//    else if(fi.suffix() != "bin")
+//        QMessageBox::information(this, "Ошибка", "Введен некоректный формат файла");
+//    else
+//    {
+//        //Open file
+//        QFile file;
+//        file.setFileName(fileName);
+//        file.open(QIODevice::ReadOnly);
 
-        //Create arg
-        char *mas;
-        int size_int = sizeof(int);
-        size_t size_t = sizeof(int);
-        mas = new char[size_int];
+//        //Create arg
+//        char *mas;
+//        int size_int = sizeof(int);
+//        size_t size_t = sizeof(int);
+//        mas = new char[size_int];
 
-        int size = ui->spinBox_Row->value(); //size table (row)
+//        int size = ui->spinBox_Row->value(); //size table (row)
 
-        //Read size arr in .bin
-        file.read(mas, size_int);
-        memcpy(&size, mas, size_t);
+//        //Read size arr in .bin
+//        file.read(mas, size_int);
+//        memcpy(&size, mas, size_t);
 
-        int checksum = size;
+//        int checksum = size;
 
 
-        if (file.size() != size_int*(size + 2)) //check file
-            QMessageBox::information(this, "Ошибка", "Невозможно открыть файл");
-        else
-        {//all good
-            ui->spinBox_Row->setValue(size);
+//        if (file.size() != size_int*(size + 2)) //check file
+//            QMessageBox::information(this, "Ошибка", "Невозможно открыть файл");
+//        else
+//        {//all good
+//            ui->spinBox_Row->setValue(size);
 
-            no_auto_change = false;
+//            no_auto_change = false;
 
-            for (int i = 0; i < size; i++)
-            {
-                if (ui->tableWidget->item(i,0)==nullptr)
-                {
-                    QTableWidgetItem *ti;
-                    ti = new QTableWidgetItem;
-                    ui->tableWidget->setItem(i,0,ti);
-                }
+//            for (int i = 0; i < size; i++)
+//            {
+//                if (ui->tableWidget->item(i,0)==nullptr)
+//                {
+//                    QTableWidgetItem *ti;
+//                    ti = new QTableWidgetItem;
+//                    ui->tableWidget->setItem(i,0,ti);
+//                }
 
-                //Write arg in table
-                int tmp;
-                file.read(mas, size_int);
-                memcpy(&tmp, mas, size_t);
-                ui->tableWidget->item(i,0)->setText(QString::number(tmp));
+//                //Write arg in table
+//                int tmp;
+//                file.read(mas, size_int);
+//                memcpy(&tmp, mas, size_t);
+//                ui->tableWidget->item(i,0)->setText(QString::number(tmp));
 
-                //Check -100<=x<=100
-                if ((tmp >= -100) and (tmp <= 100))
-                    ui->tableWidget->item(i,0)->setBackground(Qt::white); //changed background of -100<=cells<=100
-                else if (tmp == 101)
-                {
-                    ui->tableWidget->item(i,0)->setText("error");
-                    ui->tableWidget->item(i,0)->setBackground(Qt::red);
-                }
-                checksum += tmp;
-            }
-            int tmp;
-            file.read(mas, size_int);
-            memcpy(&tmp, mas, size_t);
+//                //Check -100<=x<=100
+//                if ((tmp >= -100) and (tmp <= 100))
+//                    ui->tableWidget->item(i,0)->setBackground(Qt::white); //changed background of -100<=cells<=100
+//                else if (tmp == 101)
+//                {
+//                    ui->tableWidget->item(i,0)->setText("error");
+//                    ui->tableWidget->item(i,0)->setBackground(Qt::red);
+//                }
+//                checksum += tmp;
+//            }
+//            int tmp;
+//            file.read(mas, size_int);
+//            memcpy(&tmp, mas, size_t);
 
-            if (checksum != tmp)
-            {
-                ui->spinBox_Row->setValue(2);
-                for (int i = 0; i < size; ++i)
-                    ui->tableWidget->clear();
-                QMessageBox::information(this, "Ошбика", "Файл был изменен");     
-            }
+//            if (checksum != tmp)
+//            {
+//                ui->spinBox_Row->setValue(2);
+//                for (int i = 0; i < size; ++i)
+//                    ui->tableWidget->clear();
+//                QMessageBox::information(this, "Ошбика", "Файл был изменен");
+//            }
 
-            file.close();
-            delete [] mas;
-            mas = nullptr;
-        }
-    }
-}
+//            file.close();
+//            delete [] mas;
+//            mas = nullptr;
+//        }
+//    }
+//}
 
 
 /* Контрольная сумма считается как size * tmp(i) */

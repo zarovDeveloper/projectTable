@@ -71,17 +71,17 @@ private slots:
 
     void on_pushButton_saveTxt_clicked();
 
-    void on_pushButton_openBin_clicked();
+//    void on_pushButton_openBin_clicked();
 
-    void on_pushButton_saveBin_clicked();
+//    void on_pushButton_saveBin_clicked();
 
     void saveTxt();
 
     void openTxt();
 
-    void openBin();
+//    void openBin();
 
-    void saveBin();
+//    void saveBin();
 
 private:
 
