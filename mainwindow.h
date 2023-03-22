@@ -6,6 +6,7 @@
 #include <bits/stdc++.h> //библиотека для С++, где уже включены все базовые функиции std, string и т.д.
 #include <QTime> //таймер
 #include <QFileDialog> //для открытия файлов
+#include <QTextStream>
 
 using namespace std;
 

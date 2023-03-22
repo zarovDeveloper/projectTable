@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->radioButton_increasing->click(); //иммитация клика мышки на кнопку возрастания
 
     setWindowTitle("Table Project"); //изменили название программы
+
 }
 
 MainWindow::~MainWindow()
@@ -194,8 +195,11 @@ void MainWindow::on_pushButton_deleteDup_clicked() //кнопка удалени
 
 void MainWindow::on_spinBox_Row_valueChanged(int arg1) //изменили значение спинбокса
 {
+    no_auto_change = false;
+
     ui->tableWidget->setRowCount(arg1);
-    ui->label_ans->clear();
+
+    no_auto_change = true;
 }
 
 void MainWindow::on_spinBox_search_valueChanged() //изменили значение спинбокса для поиска
@@ -1583,28 +1587,23 @@ void MainWindow::on_pushButton_saveBin_clicked() //save as bin
 
         for (int i = 0; i < ui->spinBox_Row->value(); i++)
         {
-            ui->tableWidget->item(i,0)->text().toInt(&flag);
+            if (ui->tableWidget->item(i,0) != nullptr)
+                ui->tableWidget->item(i,0)->text().toInt(&flag);
             if (ui->tableWidget->item(i,0) == nullptr or ui->tableWidget->item(i,0)->text().isEmpty() or !flag)
             {//если не существует ячейки или пустая строка или значение некоректно
                 QMessageBox msgBox;
                 msgBox.setWindowTitle("Ошибка");
-                msgBox.setText("В массиве есть неверные значения. \nМассив будет сохранен некорректно \nВы хотите продолжить?");
-                msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+                msgBox.setText("В массиве есть неверные значения.");
+                msgBox.setStandardButtons(QMessageBox::Ok);
                 int res = msgBox.exec();
 
                 //Обработка ошибки
                 switch (res)
                 {//какую кнопку нажал юзер
-                    case QMessageBox::Yes:
+                    case QMessageBox::Ok:
                     {//нажали кнопку Yes
                         flag = false;
-                        saveBin();
                         break;
-                    }
-                    case QMessageBox::No:
-                    {//нажали кнопку No
-                        flag = false;
-                        break; //ничего не делаем
                     }
                 }
                 break;
@@ -1677,13 +1676,10 @@ void MainWindow::openTxt() //func open as txt
     QFileInfo fi(fileName);
 
     if (fileName.isEmpty())
-    {
         QMessageBox::information(this, "Ошибка", "Файл не выбран");
-    }
     else if(fi.suffix() != "txt")
-    {
         QMessageBox::information(this, "Ошибка", "Введен некоректный формат файла");
-    }
+
     else
     {
         //Open file
@@ -1705,30 +1701,46 @@ void MainWindow::openTxt() //func open as txt
         str.append(ba);
         str.remove("\n");
 
-        size = str.toInt(&flag); //size file
+        size = str.toInt(&flag); //user size file
+
+
+        //size file
+        QTextStream stream(&file);
+        //count string
+        int linecount = 0;
+        QString line;
+        do
+        {
+             line = stream.readLine();
+             //count string +
+             if(!line.isNull()) {linecount++;}
+         } while (!line.isNull());
+
+
+        file.seek(0);//changed pointer in file
+        ba = file.readLine();
 
         if (!flag)
         {
             QMessageBox::information(this, "Ошибка", "Не могу считать");
         }
+        else if(linecount > size)
+        {
+            QMessageBox::information(this, "Ошибка", "Неккоректный размер файла");
+        }
         else
         {
             ui->spinBox_Row->setValue(size);
+            no_auto_change = false;
 
             for (int i = 0; i < size; i++)
             {
-
                 if (ui->tableWidget->item(i,0)==nullptr)
                 {//cell not exist
                     QTableWidgetItem *ti;
                     ti = new QTableWidgetItem;
                     ui->tableWidget->setItem(i,0,ti);
                 }
-                else if (ui->tableWidget->item(i,0)->text().isEmpty())
-                {//cell empty
-                    ui->tableWidget->item(i,0)->setBackground(Qt::red); //changed background of empty cells
-                }
-
                 //write arg in arr tableWidjet
                 ba = file.readLine();
                 str.clear();
@@ -1736,6 +1748,7 @@ void MainWindow::openTxt() //func open as txt
                 str.remove("\n");
 
                 int tmp = str.toInt(&flag); //check the cell for int
+
                 if (!flag)
                     ui->tableWidget->item(i,0)->setBackground(Qt::red); //changed background of non int arg
                 else
@@ -1755,7 +1768,7 @@ void MainWindow::saveBin() //func save as bin
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Сохранить как bin"), "C:/Users/sulle/OneDrive/Документы", tr("Binary files (*.bin)"));
     QFileInfo fi(fileName);
-    \
+
     if (fileName.isEmpty())
     {
         QMessageBox::information(this, "Ошибка", "Файл не выбран");
@@ -1778,6 +1791,7 @@ void MainWindow::saveBin() //func save as bin
         mas = new char[size_int];
 
         int size = ui->spinBox_Row->value(); //size arr
+        int checksum = size;
 
         memcpy(mas, &size, size_t);
         file.write(mas, size_int);
@@ -1796,9 +1810,16 @@ void MainWindow::saveBin() //func save as bin
             if (!(error and  (tmp >= -100 and tmp <= 100)))//check bad arg
                 tmp = 101;
 
+            checksum += tmp;
+
             memcpy(mas, &tmp, size_t);
             file.write(mas, size_int);
         }
+
+        //write checksum
+        memcpy(mas, &checksum, size_t);
+        file.write(mas, size_int);
+
         file.close();
         delete [] mas;
         mas = nullptr;
@@ -1811,13 +1832,9 @@ void MainWindow::openBin() //fucn open as bin
     QFileInfo fi(fileName);
 
     if (fileName.isEmpty())
-    {//check empty fileName
         QMessageBox::information(this, "Ошибка", "Файл не выбран");
-    }
     else if(fi.suffix() != "bin")
-    {
         QMessageBox::information(this, "Ошибка", "Введен некоректный формат файла");
-    }
     else
     {
         //Open file
@@ -1837,11 +1854,16 @@ void MainWindow::openBin() //fucn open as bin
         file.read(mas, size_int);
         memcpy(&size, mas, size_t);
 
-        if (file.size() != size_int*(size + 1)) //check file
-            QMessageBox::information(this, "Ошибка", "Файл не выбран");
+        int checksum = size;
+
+
+        if (file.size() != size_int*(size + 2)) //check file
+            QMessageBox::information(this, "Ошибка", "Невозможно открыть файл");
         else
         {//all good
             ui->spinBox_Row->setValue(size);
+
+            no_auto_change = false;
 
             for (int i = 0; i < size; i++)
             {
@@ -1866,10 +1888,26 @@ void MainWindow::openBin() //fucn open as bin
                     ui->tableWidget->item(i,0)->setText("error");
                     ui->tableWidget->item(i,0)->setBackground(Qt::red);
                 }
+                checksum += tmp;
             }
+            int tmp;
+            file.read(mas, size_int);
+            memcpy(&tmp, mas, size_t);
+
+            if (checksum != tmp)
+            {
+                ui->spinBox_Row->setValue(2);
+                for (int i = 0; i < size; ++i)
+                    ui->tableWidget->clear();
+                QMessageBox::information(this, "Ошбика", "Файл был изменен");     
+            }
+
             file.close();
             delete [] mas;
             mas = nullptr;
         }
     }
 }
+
+
+/* Контрольная сумма считается как size * tmp(i) */

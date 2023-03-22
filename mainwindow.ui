@@ -14,24 +14,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pushButton_DelColum">
-    <property name="geometry">
-     <rect>
-      <x>620</x>
-      <y>70</y>
-      <width>151</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>18</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>DelColum</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_search">
     <property name="geometry">
      <rect>
@@ -72,7 +54,7 @@
     <property name="geometry">
      <rect>
       <x>740</x>
-      <y>20</y>
+      <y>60</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -96,7 +78,7 @@
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>20</y>
+      <y>60</y>
       <width>131</width>
       <height>41</height>
      </rect>
@@ -203,11 +185,10 @@
      <number>2</number>
     </property>
     <property name="columnCount">
-     <number>2</number>
+     <number>1</number>
     </property>
     <row/>
     <row/>
-    <column/>
     <column/>
    </widget>
    <widget class="QGroupBox" name="groupBox">
@@ -330,24 +311,6 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_AddColum">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>70</y>
-      <width>161</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>18</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>AddColum</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_saveBin">
@@ -549,7 +512,7 @@
     <property name="geometry">
      <rect>
       <x>590</x>
-      <y>20</y>
+      <y>60</y>
       <width>131</width>
       <height>41</height>
      </rect>
@@ -678,7 +641,7 @@
      <x>0</x>
      <y>0</y>
      <width>1151</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
