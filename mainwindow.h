@@ -67,17 +67,17 @@ private slots:
 
     void on_lineEdit_search_textChanged();
 
-    void on_pushButton_openTxt_clicked();
+//    void on_pushButton_openTxt_clicked();
 
-    void on_pushButton_saveTxt_clicked();
+//    void on_pushButton_saveTxt_clicked();
 
     void on_pushButton_openBin_clicked();
 
     void on_pushButton_saveBin_clicked();
 
-    void saveTxt();
+//    void saveTxt();
 
-    void openTxt();
+//    void openTxt();
 
     void openBin();
 
